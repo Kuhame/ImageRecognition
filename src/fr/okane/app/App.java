@@ -18,7 +18,8 @@ public class App {
         //Histogramme.discretiser(h);
         //Histogramme.normaliser(h, image.getXDim() * image.getYDim());
 
-        Images images = new Images(1, "motos");
+        Images images = new Images(69, "motos");
+        images.afficherResultats();
     }
 
     public static void afficherRGB(Image image) {
