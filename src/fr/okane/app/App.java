@@ -1,8 +1,7 @@
 package fr.okane.app;
 
-import fr.okane.histogramme.Histogramme;
+import fr.okane.db.Images;
 import fr.unistra.pelican.Image;
-import fr.unistra.pelican.algorithms.io.ImageLoader;
 import fr.unistra.pelican.algorithms.visualisation.Viewer2D;
 
 import java.io.IOException;
@@ -14,8 +13,12 @@ public class App {
         image = ImageFilter.median(image);
         afficherRGB(image);*/
 
-        double[][] h = Histogramme.RGB(ImageLoader.exec("./img/tmp/sobRGB.png"));
-        Histogramme.discretiser(h);
+        //Image image = ImageLoader.exec("./img/tmp/sobRGB.png");
+        //double[][] h = Histogramme.RGB(image);
+        //Histogramme.discretiser(h);
+        //Histogramme.normaliser(h, image.getXDim() * image.getYDim());
+
+        Images images = new Images(1, "motos");
     }
 
     public static void afficherRGB(Image image) {
