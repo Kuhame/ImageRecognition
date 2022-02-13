@@ -5,10 +5,11 @@ import fr.unistra.pelican.Image;
 
 import java.util.Arrays;
 
-public class ImageFilter {
+public class Filtre {
 
     /**
      * Applique un filtre médian sur une image RGB
+     *
      * @param image L'image à transformer
      * @return La nouvelle image filtrée
      */

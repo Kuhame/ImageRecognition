@@ -1,9 +1,5 @@
 package fr.okane.utils;
 
-import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartUtilities;
@@ -14,19 +10,22 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
 
 public class HistogramTools {
 
 
     /**
-     *
      * @param histogram
      * @throws IOException
      */
-    public static void plotHistogram(double [] histogram) throws IOException{
+    public static void plotHistogram(double[] histogram) throws IOException {
 
         XYSeries myseries = new XYSeries("Nombre de pixels");
-        for(int i=0;i<histogram.length;i++){
+        for (int i = 0; i < histogram.length; i++) {
             myseries.add(new Double(i), new Double(histogram[i]));
         }
         XYSeriesCollection myseriescollection = new XYSeriesCollection(myseries);
@@ -49,15 +48,14 @@ public class HistogramTools {
     }
 
     /**
-     *
      * @param histogram
      * @param pathToSave
      * @throws IOException
      */
-    public static void saveHistogram(double [] histogram, String pathToSave) throws IOException{
+    public static void saveHistogram(double[] histogram, String pathToSave) throws IOException {
 
         XYSeries myseries = new XYSeries("Nombre de pixels");
-        for(int i=0;i<histogram.length;i++){
+        for (int i = 0; i < histogram.length; i++) {
             myseries.add(new Double(i), new Double(histogram[i]));
         }
         XYSeriesCollection myseriescollection = new XYSeriesCollection(myseries);
@@ -73,7 +71,7 @@ public class HistogramTools {
         axis.setLowerMargin(0);
         axis.setUpperMargin(0);
 
-        if(pathToSave!=null)
+        if (pathToSave != null)
             ChartUtilities.saveChartAsPNG(new File(pathToSave), jfreechart, 900, 600);
     }
 

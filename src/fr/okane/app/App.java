@@ -1,6 +1,6 @@
 package fr.okane.app;
 
-import fr.okane.histogram.Histogram;
+import fr.okane.histogramme.Histogramme;
 import fr.unistra.pelican.Image;
 import fr.unistra.pelican.algorithms.io.ImageLoader;
 import fr.unistra.pelican.algorithms.visualisation.Viewer2D;
@@ -14,7 +14,7 @@ public class App {
         image = ImageFilter.median(image);
         afficherRGB(image);*/
 
-        Histogram.RGB(ImageLoader.exec("./img/tmp/sobRGB.png"));
+        Histogramme.RGB(ImageLoader.exec("./img/tmp/sobRGB.png"));
     }
 
     public static void afficherRGB(Image image) {

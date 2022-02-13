@@ -1,4 +1,4 @@
-package fr.okane.histogram;
+package fr.okane.histogramme;
 
 import fr.okane.utils.HistogramTools;
 import fr.unistra.pelican.Image;
@@ -6,7 +6,7 @@ import fr.unistra.pelican.Image;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Histogram {
+public class Histogramme {
     /**
      * Construit et affiche l'histogramme d'une image à niveaux de gris
      *
