@@ -14,7 +14,8 @@ public class App {
         image = ImageFilter.median(image);
         afficherRGB(image);*/
 
-        Histogramme.RGB(ImageLoader.exec("./img/tmp/sobRGB.png"));
+        double[][] h = Histogramme.RGB(ImageLoader.exec("./img/tmp/sobRGB.png"));
+        Histogramme.discretiser(h);
     }
 
     public static void afficherRGB(Image image) {
