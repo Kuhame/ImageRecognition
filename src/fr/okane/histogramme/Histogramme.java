@@ -44,19 +44,37 @@ public class Histogramme {
         return h;
     }
 
-    /**
-     * Discrétise l'histogramme d'une image RGB
-     *
-     * @param h L'histogramme à discrétiser
-     * @return Le nouvel histogramme discrétisé
-     */
-    public static double[][] discretiser(double[][] h) {
+    /*public static double[][] discretiser(double[][] h) {
         double[][] nv = new double[3][10];
 
         for (int canal = 0; canal < 3; ++canal) {
             for (int i = 0; i < 10; ++i) {
                 int cumul = 0;
                 for (int j = (i * 25); j < (25 + i * 25); ++j) {
+                    cumul += h[canal][j];
+                }
+                nv[canal][i] = cumul;
+            }
+            //HistogramTools.plotHistogram(nv[canal]);
+        }
+
+        return nv;
+    }*/
+
+    /**
+     * Discrétise l'histogramme d'une image RGB en le divisant par 2
+     *
+     * @param h L'histogramme à discrétiser
+     * @return Le nouvel histogramme discrétisé
+     */
+    public static double[][] discretiser(double[][] h) {
+        int nvTaille = h[0].length/2;
+        double[][] nv = new double[3][nvTaille];
+
+        for (int canal = 0; canal < 3; ++canal) {
+            for (int i = 0; i < nvTaille; ++i) {
+                int cumul = 0;
+                for (int j = (i * 2); j < (2 + i * 2); ++j) {
                     cumul += h[canal][j];
                 }
                 nv[canal][i] = cumul;
