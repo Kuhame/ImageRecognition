@@ -7,7 +7,6 @@ import fr.unistra.pelican.algorithms.io.ImageLoader;
 import fr.unistra.pelican.algorithms.visualisation.Viewer2D;
 
 import java.io.*;
-import java.nio.Buffer;
 import java.util.*;
 
 public class ImagesSimilaires {
@@ -88,14 +87,16 @@ public class ImagesSimilaires {
                     Image image = images.get(i);
 
                     images.set(i, Filtre.median(image));
-                    double[][] h = Histogramme.RGB(image);
+                    double[][] h = Histogramme.HSV(image); // RGB ou HSV
 
+                    /*
                     h = Histogramme.discretiser(h);
                     h = Histogramme.discretiser(h);
                     h = Histogramme.discretiser(h);
                     h = Histogramme.discretiser(h);
                     h = Histogramme.discretiser(h);
                     h = Histogramme.discretiser(h);
+                    */
                     h = Histogramme.normaliser(h, image.getXDim() * image.getYDim());
 
                     histogrammes.add(h);
@@ -104,7 +105,8 @@ public class ImagesSimilaires {
                     for (int canal = 0; canal < 3; ++canal) {
                         StringBuilder histogrammeString = new StringBuilder();
 
-                        for (int k = 0; k < h[0].length; ++k) {
+                        int taille = h[canal].length;
+                        for (int k = 0; k < taille; ++k) {
                             histogrammeString.append(h[canal][k]).append(" ");
                         }
                         histogrammeString.append("\n");
@@ -113,7 +115,9 @@ public class ImagesSimilaires {
                 }
                 w.close();
             }
-        } catch (IOException ignored) {}
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     private void calculerDistances() {
@@ -123,7 +127,8 @@ public class ImagesSimilaires {
             double cumul = 0.0;
 
             for (int canal = 0; canal < 3; ++canal) { // chaque canal
-                for (int i = 0; i < h[0].length; ++i) { // chaque barre
+                int taille = h[canal].length;
+                for (int i = 0; i < taille; ++i) { // chaque barre
                     cumul += Math.pow((histoRef[canal][i] - h[canal][i]), 2);
                 }
             }
