@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class App {
     public static void main(String[] args) throws IOException {
-        ImagesSimilaires images = new ImagesSimilaires("069.jpg", "motos", true);
+        ImagesSimilaires images = new ImagesSimilaires("069.jpg", "motos", false);
         images.afficherResultats();
 
     }

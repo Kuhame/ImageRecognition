@@ -147,7 +147,7 @@ public class ImagesSimilaires {
 
     private void stockerResultats() {
         for (int i = 0; i < distances.size(); ++i) {
-            if (i == indexImageRef) continue;
+            if (i == indexImageRef) continue; // ne stocke pas l'image de référence dans les résultats (distance O)
 
             resultats.put(distances.get(i), images.get(i));
         }
