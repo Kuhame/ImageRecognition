@@ -10,34 +10,41 @@ import java.io.*;
 import java.util.*;
 
 public class ImagesSimilaires {
-    private final int imageReference;
+    private final boolean rgb;
     private final List<Image> images;
+
     private final List<double[][]> histogrammes;
     private final List<Double> distances;
     private final TreeMap<Double, Image> resultats;
+    private int indexImageRef;
 
-    public ImagesSimilaires(int imageReference, String dossier) {
-        this.imageReference = imageReference;
+    public ImagesSimilaires(String imageReference, String dossier, boolean rgb) {
         images = new ArrayList<>();
         histogrammes = new ArrayList<>();
         distances = new ArrayList<>();
         resultats = new TreeMap<>();
 
-        chargerImages(dossier);
+        this.rgb = rgb;
+
+        chargerImages(dossier, imageReference);
         calculerSignatures(dossier);
         calculerDistances();
         stockerResultats();
     }
 
-    private void chargerImages(String dossier) {
-        int nbImages = new File("./img/" + dossier + "/").list().length;
-        String extension = extension(dossier);
+    private void chargerImages(String dossier, String imageReference) {
+        File dir = new File("./img/" + dossier + "/");
 
-        for (int i = 0; i < nbImages; ++i) {
-            String numeroImage = String.format("%03d", i); // 001
-            String chemin = "./img/" + dossier + "/" + numeroImage + "." + extension;
+        File[] files = dir.listFiles();
 
-            images.add(ImageLoader.exec(chemin));
+        int i = 0;
+        for (File file : files) {
+            if (file.getName().equals(imageReference)) {
+                indexImageRef = i;
+            }
+            ++i;
+
+            images.add(ImageLoader.exec(file.getPath()));
         }
     }
 
@@ -87,16 +94,17 @@ public class ImagesSimilaires {
                     Image image = images.get(i);
 
                     images.set(i, Filtre.median(image));
-                    double[][] h = Histogramme.HSV(image); // RGB ou HSV
+                    double[][] h = rgb ? Histogramme.RGB(image) : Histogramme.HSV(image);
 
-                    /*
-                    h = Histogramme.discretiser(h);
-                    h = Histogramme.discretiser(h);
-                    h = Histogramme.discretiser(h);
-                    h = Histogramme.discretiser(h);
-                    h = Histogramme.discretiser(h);
-                    h = Histogramme.discretiser(h);
-                    */
+                    if (rgb) {
+                        h = Histogramme.discretiser(h);
+                        h = Histogramme.discretiser(h);
+                        h = Histogramme.discretiser(h);
+                        h = Histogramme.discretiser(h);
+                        h = Histogramme.discretiser(h);
+                        h = Histogramme.discretiser(h);
+                    }
+
                     h = Histogramme.normaliser(h, image.getXDim() * image.getYDim());
 
                     histogrammes.add(h);
@@ -121,7 +129,7 @@ public class ImagesSimilaires {
     }
 
     private void calculerDistances() {
-        double[][] histoRef = histogrammes.get(imageReference);
+        double[][] histoRef = histogrammes.get(indexImageRef);
 
         for (double[][] h : histogrammes) {
             double cumul = 0.0;
@@ -139,7 +147,7 @@ public class ImagesSimilaires {
 
     private void stockerResultats() {
         for (int i = 0; i < distances.size(); ++i) {
-            if (i == imageReference) continue;
+            if (i == indexImageRef) continue;
 
             resultats.put(distances.get(i), images.get(i));
         }
@@ -158,17 +166,6 @@ public class ImagesSimilaires {
 
             ++i;
             if (i == 10) break;
-        }
-    }
-
-    private static String extension(String dossier) {
-        switch (dossier) {
-            case "broad":
-                return "png";
-            case "motos":
-                return "jpg";
-            default:
-                throw new IllegalArgumentException("Nom de dossier inconnu");
         }
     }
 }
